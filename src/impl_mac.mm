@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#include <iostream>
 #include "impl.h"
 
 void GetFileHandlerInfo(std::string filePath, FileHandlerInfo& info) {
@@ -17,7 +18,6 @@ void GetFileHandlerInfo(std::string filePath, FileHandlerInfo& info) {
   if (handlerUrl == NULL) {
     // Likely either no file exists at that path, or there is no application
     // that handles the file.
-    CFRelease(handlerUrl);
     return;
   }
 
