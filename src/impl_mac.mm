@@ -28,7 +28,13 @@ void GetFileHandlerInfo(std::string filePath, FileHandlerInfo& info) {
   // Get a friendly name for the handler & set it on the result struct
   NSString* handlerFriendlyNameNSStr =
     [[NSFileManager defaultManager] displayNameAtPath:handlerPathNSStr];
-  info.friendly_name = std::string([handlerFriendlyNameNSStr UTF8String]);
+  
+  // The `displayNameAtPath:` message returns the path argument if something
+  // went wrong. A pointer comparison should suffice to check if that was the
+  // case.
+  if (handlerFriendlyNameNSStr != handlerPathNSStr) {
+    info.friendly_name = std::string([handlerFriendlyNameNSStr UTF8String]);
+  }
 
   CFRelease(handlerUrl);
 }

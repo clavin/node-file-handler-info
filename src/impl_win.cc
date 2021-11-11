@@ -11,7 +11,11 @@ static_assert(
 
 namespace {
 
-std::u16string u16strFromWStrBuf(wchar_t* str) {
+/**
+ * Construct a std::u16string from a pointer to a UTF-16, null-terminated, wide
+ * C string.
+ */
+std::u16string U16StrFromWStr(wchar_t* str) {
   return std::u16string(reinterpret_cast<char16_t*>(str));
   // SAFETY: str is UTF-16 and we statically asserted that wchar_t has the same
   // size as char16_t
@@ -38,7 +42,7 @@ void GetFileHandlerInfo(std::u16string filePath, FileHandlerInfo& info) {
   // SAFETY: the windows docs literally says it returns an int <= 32 for errors
   if (findExecSucceeded) {
     // Set the path on the result struct
-    info.handler_path = ::u16strFromWStrBuf(execPath);
+    info.handler_path = ::U16StrFromWStr(execPath);
   }
 
   // Try to get a friendly name for the executable
@@ -47,10 +51,10 @@ void GetFileHandlerInfo(std::u16string filePath, FileHandlerInfo& info) {
   LPCWSTR fileExt = ::PathFindExtensionW(filePathW);
   
   // Then try to query a file extension association from the registry
-  // NOTE: 1024 is arbitrarily chosen and could be a dynamic value (by calling
-  // AssocQueryString twice) if needed.
   wchar_t friendlyNameBuf[1024];
   DWORD assocFriendlyNameSize = 1024;
+  // NOTE: 1024 is arbitrarily chosen and could be a dynamic value (by calling
+  // AssocQueryString twice) if needed.
   HRESULT assocQuerySizeResult = ::AssocQueryStringW(
     ASSOCF_NONE,
     ASSOCSTR_FRIENDLYAPPNAME,
@@ -61,8 +65,7 @@ void GetFileHandlerInfo(std::u16string filePath, FileHandlerInfo& info) {
   );
   if (SUCCEEDED(assocQuerySizeResult)) {
     // Set the name on the result struct
-    info.friendly_name = ::u16strFromWStrBuf(friendlyNameBuf);
-    return;
+    info.friendly_name = ::U16StrFromWStr(friendlyNameBuf);
   } else if (findExecSucceeded) {
     // Fallback to the display name of the executable shown by the shell
     SHFILEINFOW execInfo;
@@ -75,7 +78,7 @@ void GetFileHandlerInfo(std::u16string filePath, FileHandlerInfo& info) {
     );
     if (execInfoResult != 0) {
       // Call succeeded, set the name on the result struct
-      info.friendly_name = ::u16strFromWStrBuf(execInfo.szDisplayName);
+      info.friendly_name = ::U16StrFromWStr(execInfo.szDisplayName);
     }
   }
 }
