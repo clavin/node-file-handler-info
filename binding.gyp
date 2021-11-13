@@ -38,7 +38,8 @@
           },
           # else
           {
-            'sources': ['src/impl_none.cc']
+            'sources': ['src/impl_none.cc'],
+            'cflags_cc': ['-std=c++17']
           }
         ],
       ],
