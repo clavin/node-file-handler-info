@@ -19,7 +19,6 @@
           {
             'sources': ['src/impl_mac.mm'],
             'xcode_settings': {
-              'OTHER_CPLUSPLUSFLAGS': ['-std=c++17'],
               'OTHER_LDFLAGS': ['-framework Foundation'],
             },
           },
@@ -28,18 +27,10 @@
             'sources': ['src/impl_win.cc'],
             'defines': ['UNICODE'],
             'libraries': ['Shlwapi.lib'],
-            'msvs_settings': {
-              'VCCLCompilerTool': {
-                'AdditionalOptions': [
-                  '/std:c++17',
-                ],
-              },
-            },
           },
           # else
           {
             'sources': ['src/impl_none.cc'],
-            'cflags_cc': ['-std=c++17']
           }
         ],
       ],

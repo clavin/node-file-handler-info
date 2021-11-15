@@ -2,7 +2,7 @@
 #include <iostream>
 #include "impl.h"
 
-void GetFileHandlerInfo(std::string filePath, FileHandlerInfo& info) {
+void GetFileHandlerInfo(const std::string& filePath, FileHandlerInfo& info) {
   // Ask launch services for the application which handles this file path
   NSString* filePathNSStr =
     [NSString
@@ -30,9 +30,8 @@ void GetFileHandlerInfo(std::string filePath, FileHandlerInfo& info) {
     [[NSFileManager defaultManager] displayNameAtPath:handlerPathNSStr];
   
   // The `displayNameAtPath:` message returns the path argument if something
-  // went wrong. A pointer comparison should suffice to check if that was the
-  // case.
-  if (handlerFriendlyNameNSStr != handlerPathNSStr) {
+  // went wrong.
+  if (![handlerFriendlyNameNSStr isEqualToString:handlerPathNSStr]) {
     info.friendly_name = std::string([handlerFriendlyNameNSStr UTF8String]);
   }
 

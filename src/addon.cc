@@ -4,13 +4,13 @@
 namespace {
 
 /**
- * A simple utility to convert an std::optional<os_string> to either a JS string
- * or null.
+ * A simple utility to convert an os_string to either a JS string or null (if
+ * the os_string is empty).
  */
-Napi::Value StringOrNull(Napi::Env env, std::optional<os_string> str) {
-  return str.has_value()
-    ? Napi::String::From(env, str.value())
-    : env.Null();
+Napi::Value StringOrNull(Napi::Env env, os_string str) {
+  return str.empty()
+    ? env.Null()
+    : Napi::String::From(env, str);
 }
 
 /**

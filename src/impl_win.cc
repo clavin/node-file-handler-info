@@ -23,7 +23,7 @@ std::u16string U16StrFromWStr(wchar_t* str) {
 
 } // namespace
 
-void GetFileHandlerInfo(std::u16string filePath, FileHandlerInfo& info) {
+void GetFileHandlerInfo(const std::u16string& filePath, FileHandlerInfo& info) {
   // Get the file path as a wide string
   LPCWSTR filePathW = reinterpret_cast<LPCWSTR>(filePath.c_str());
   // SAFETY: str is UTF-16 and we statically asserted that wchar_t has the same
@@ -51,10 +51,11 @@ void GetFileHandlerInfo(std::u16string filePath, FileHandlerInfo& info) {
   LPCWSTR fileExt = ::PathFindExtensionW(filePathW);
   
   // Then try to query a file extension association from the registry
-  wchar_t friendlyNameBuf[1024];
-  DWORD assocFriendlyNameSize = 1024;
+  const size_t kFriendlyNameBufferSize = 1024;
   // NOTE: 1024 is arbitrarily chosen and could be a dynamic value (by calling
   // AssocQueryString twice) if needed.
+  wchar_t friendlyNameBuf[kFriendlyNameBufferSize];
+  DWORD assocFriendlyNameSize = kFriendlyNameBufferSize;
   HRESULT assocQuerySizeResult = ::AssocQueryStringW(
     ASSOCF_NONE,
     ASSOCSTR_FRIENDLYAPPNAME,
