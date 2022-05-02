@@ -1,6 +1,6 @@
 {
 	"name": "file-handler-info",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"homepage": "https://github.com/clavin/node-file-handler-info",
 	"repository": "github:clavin/node-file-handler-info",
 	"main": "index.js",
