@@ -7,7 +7,7 @@ void GetFileHandlerInfo(const std::string& filePath, FileHandlerInfo& info) {
   NSString* filePathNSStr =
     [NSString
       stringWithCString:filePath.c_str()
-      encoding:[NSString defaultCStringEncoding]];
+      encoding:NSUTF8StringEncoding];
   NSURL* filePathNSUrl = [NSURL fileURLWithPath:filePathNSStr];
 
   CFURLRef handlerUrl = LSCopyDefaultApplicationURLForURL(
