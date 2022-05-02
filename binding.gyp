@@ -20,6 +20,8 @@
             'sources': ['src/impl_mac.mm'],
             'xcode_settings': {
               'OTHER_LDFLAGS': ['-framework Foundation'],
+              'GCC_GENERATE_DEBUGGING_SYMBOLS': 'YES',
+              "DEBUG_INFORMATION_FORMAT": "dwarf-with-dsym",
             },
           },
           'OS=="win"',
@@ -27,6 +29,9 @@
             'sources': ['src/impl_win.cc'],
             'defines': ['UNICODE'],
             'libraries': ['Shlwapi.lib'],
+            'msbuild_settings': {
+              'DebugInformationFormat': 3
+            }
           },
           # else
           {
