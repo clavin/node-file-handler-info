@@ -29,8 +29,10 @@
             'sources': ['src/impl_win.cc'],
             'defines': ['UNICODE'],
             'libraries': ['Shlwapi.lib'],
-            'msbuild_settings': {
-              'DebugInformationFormat': 3
+            'msvs_settings': {
+                'VCCLCompilerTool': {
+                  'DebugInformationFormat': 3
+                }
             }
           },
           # else
