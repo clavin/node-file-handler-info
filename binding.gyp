@@ -19,6 +19,7 @@
           {
             'sources': ['src/impl_mac.mm'],
             'xcode_settings': {
+              'OTHER_CPLUSPLUSFLAGS': ['-std=c++17'],
               'OTHER_LDFLAGS': ['-framework Foundation'],
               'GCC_GENERATE_DEBUGGING_SYMBOLS': 'YES',
               "DEBUG_INFORMATION_FORMAT": "dwarf-with-dsym",
@@ -31,13 +32,17 @@
             'libraries': ['Shlwapi.lib'],
             'msvs_settings': {
                 'VCCLCompilerTool': {
-                  'DebugInformationFormat': 3
+                  'DebugInformationFormat': 3,
+                  'AdditionalOptions': [
+                    '/std:c++17',
+                  ]
                 }
             }
           },
           # else
           {
             'sources': ['src/impl_none.cc'],
+            'cflags_cc': ['-std=c++17']
           }
         ],
       ],
